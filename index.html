@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<title>D.A.S Attendance App</title>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container">
+		<h3 class="mt-4 mb-1">Dehiwela Ahadiyya School</h3>
+		<h4 class="my-4">Attendance Calculator</h3>
+		<div class="form-group row">
+	    <label for="lateDays" class="col-sm-3 col-form-label">Late Days</label>
+	    <div class="col-sm-6">
+	      <input type="number" class="form-control" id="lateDays">
+	    </div>
+	  </div>
+
+		<div class="form-group row">
+	    <label for="attendedDays" class="col-sm-3 col-form-label">Attended Days</label>
+	    <div class="col-sm-6">
+	      <input type="number" class="form-control" id="attendedDays">
+	    </div>
+	  </div>
+
+		<div class="form-group row">
+	    <label for="heldDays" class="col-sm-3 col-form-label">Held Days</label>
+	    <div class="col-sm-6">
+	      <input type="number" class="form-control" id="heldDays">
+	    </div>
+	  </div>
+
+		<div class="form-group row">
+	    <label for="joinedAfter" class="col-sm-3 col-form-label">Joined After Days</label>
+	    <div class="col-sm-6">
+	      <input type="number" class="form-control" id="joinedAfter">
+	    </div>
+	  </div>
+	  <button type="button" id="calcScore" class="btn btn-primary mb-3">Calculate</button>	
+		<div class="form-group row">
+	    <label for="joinedAfter" class="col-sm-3 col-form-label">Final Score</label>
+	    <div class="col-sm-6">
+	      <input type="number" readonly class="form-control" id="finalScore">
+	    </div>
+	  </div>
+  </div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script>
+  	$( document ).ready(function() {
+  		$('#calcScore').on('click', function(){
+
+  			// TODO : validate all values
+
+  			// Inputs
+
+  			// TODO : convert to integer all values
+		  	var lateDays = $('#lateDays').val();
+		  	var attendedDays = $('#attendedDays').val();
+		  	var heldDays = $('#heldDays').val();
+		  	var joinedAfter = $('#joinedAfter').val();
+
+		  	// Calculations
+		  	// Late Marks
+		  	var lateMarks = 0;
+		  	if(lateDays == 0) {
+			  	lateMarks = 5;
+		  	}
+
+		  	// Score
+		  	var tempDays = heldDays - joinedAfter;
+		  	var attendedScore = Math.round((attendedDays/tempDays - 0.8) * 100);
+		  	var finalScore = attendedScore + lateMarks;
+
+		  	$('#finalScore').val(finalScore);
+  		});
+		});
+
+
+  </script>
+
+
+</body>
+</html>

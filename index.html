@@ -40,8 +40,6 @@
 		      <input type="number" class="form-control" min="0" inputmode="numeric" pattern="[0-9]*" required id="joinedAfter">
 		    </div>
 		  </div>
-		  <button type="button" id="calcScore" class="btn btn-success	 mb-3 mr-4">Calculate</button>	
-		  <button type="button" id="resetBtn" class="btn btn-info mb-3">New Student</button>	
 
 			<div class="form-group row">
 		    <label for="joinedAfter" class="col-sm-3 col-form-label">Final Score</label>
@@ -49,6 +47,10 @@
 		      <input type="number" readonly class="form-control" id="finalScore">
 		    </div>
 		  </div>
+
+		  <button type="button" id="calcScore" class="btn btn-success	 mb-3 mr-4">Calculate</button>	
+		  <button type="button" id="resetBtn" class="btn btn-info mb-3">New Student</button>	
+
 		</form>
   </div>
 
@@ -84,19 +86,26 @@
 		  	var attendedScore = Math.round((attendedDays/tempDays - 0.8) * 100);
 		  	var finalScore = attendedScore + lateMarks;
 
+		  	if(finalScore <= 0) {
+		  		finalScore = 0;
+		  	}
+
 		  	$('#finalScore').val(finalScore);		
   		});
 
   		// Reset Form
   		$('#resetBtn').on('click', function(){
 	  		document.getElementById("attendance-form").reset();
-
   		})
 		});
 
 
   </script>
 
-
+	<style>
+		#finalScore {
+			border: 2px solid #17a2b8;
+		}
+	</style>
 </body>
 </html>

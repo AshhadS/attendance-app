@@ -12,43 +12,44 @@
 	<div class="container">
 		<h3 class="mt-4 mb-1">Dehiwela Ahadiyya School</h3>
 		<h4 class="my-4">Attendance Calculator</h3>
-		<form id="attendance-form" netlify>
+		<form id="attendance-form" netlify >
 			<div class="form-group row">
 		    <label for="lateDays" class="col-sm-3 col-form-label">Late Days</label>
 		    <div class="col-sm-6">
-		      <input type="number" class="form-control" min="0" inputmode="numeric" pattern="[0-9]*" required id="lateDays">
+		      <input type="number" class="form-control" min="0" inputmode="numeric" pattern="[0-9]*" required id="lateDays" name="lateDays">
 		    </div>
 		  </div>
 
 			<div class="form-group row">
 		    <label for="attendedDays" class="col-sm-3 col-form-label">Attended Days</label>
 		    <div class="col-sm-6">
-		      <input type="number" class="form-control" min="0" inputmode="numeric" pattern="[0-9]*" required id="attendedDays">
+		      <input type="number" class="form-control border" min="0" inputmode="numeric" pattern="[0-9]*" required id="attendedDays" name="attendedDays">
 		    </div>
 		  </div>
 
 			<div class="form-group row">
 		    <label for="heldDays" class="col-sm-3 col-form-label">Held Days</label>
 		    <div class="col-sm-6">
-		      <input type="number" class="form-control" min="0" inputmode="numeric" pattern="[0-9]*" required id="heldDays">
+		      <input type="number" class="form-control border" min="0" inputmode="numeric" pattern="[0-9]*" required id="heldDays" name="heldDays">
 		    </div>
 		  </div>
 
 			<div class="form-group row">
 		    <label for="joinedAfter" class="col-sm-3 col-form-label">Joined After Days</label>
 		    <div class="col-sm-6">
-		      <input type="number" class="form-control" min="0" inputmode="numeric" pattern="[0-9]*" required id="joinedAfter">
+		      <input type="number" class="form-control" min="0" inputmode="numeric" pattern="[0-9]*" required id="joinedAfter" name="joinedAfter">
 		    </div>
 		  </div>
 
 			<div class="form-group row">
 		    <label for="joinedAfter" class="col-sm-3 col-form-label">Final Score</label>
 		    <div class="col-sm-6">
-		      <input type="number" readonly class="form-control" id="finalScore">
+		      <input type="number" readonly class="form-control border border-info" id="finalScore">
 		    </div>
 		  </div>
+      <p class="text-danger font-weight-bold days-validation d-none">Attended Days Cannot be Greater Than Held Days</p>
 
-		  <button type="button" id="calcScore" class="btn btn-success	 mb-3 mr-4">Calculate</button>	
+		  <button type="submit" id="calcScore" class="btn btn-success mb-3 mr-4">Calculate</button>	
 		  <button type="button" id="resetBtn" class="btn btn-info mb-3">New Student</button>	
 
 		</form>
@@ -62,7 +63,12 @@
 
   <script>
   	$( document ).ready(function() {
-  		$('#calcScore').on('click', function(){
+  		$('#calcScore').on('click', function(e){
+  			e.preventDefault();
+  			// Dont calculate if there is an error
+  			if(!$('.days-validation').hasClass('d-none')) {
+  				return false;
+	  		}
 
   			// TODO : validate all values
 
@@ -96,16 +102,29 @@
   		// Reset Form
   		$('#resetBtn').on('click', function(){
 	  		document.getElementById("attendance-form").reset();
+  		});
+
+  		// Show error if Attend days is greater than Held days
+  		$('#heldDays, #attendedDays').on('blur', function(){
+  			if(
+  				$('#attendedDays').val().length != 0  && 
+  				$('#heldDays').val().length != 0
+  			) {
+	  			if(parseInt($('#attendedDays').val()) > parseInt($('#heldDays').val())) {
+	  				$('.days-validation').removeClass('d-none');
+	  				$('#attendedDays, #heldDays').addClass('border-danger');
+	  				$('#calcScore').prop('disabled', true);
+	  			} else {
+	  				$('.days-validation').addClass('d-none');
+	  				$('#attendedDays, #heldDays').removeClass('border-danger');
+	  				$('#calcScore').prop('disabled', false);
+	  			}
+  			} 
   		})
+
 		});
 
 
   </script>
-
-	<style>
-		#finalScore {
-			border: 2px solid #17a2b8;
-		}
-	</style>
 </body>
 </html>

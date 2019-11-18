@@ -89,7 +89,11 @@
 
 		  	// Score
 		  	var tempDays = heldDays - joinedAfter;
-		  	var attendedScore = Math.round((attendedDays/tempDays - 0.8) * 100);
+		  	var attendedScore = 0;
+		  	if(Math.round((attendedDays/tempDays) > 0.8 )) {
+				  attendedScore = Math.round((attendedDays/tempDays - 0.8) * 100);
+		  	}
+
 		  	var finalScore = attendedScore + lateMarks;
 
 		  	if(finalScore <= 0) {
